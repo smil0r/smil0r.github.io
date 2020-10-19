@@ -20,19 +20,30 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="&amp;emsp;&amp;emsp;在CTF中加解密的利用可太多了，遇到一些没见过的加解密可以难过到头秃，所以在平时的学习中也注意到收集，免去了一次次百度查找免费可用的网站的麻烦。如果这些网站在某个时刻能够帮助到你，我会很开心。">
+  <meta name="description" content="实验目的和主要实验内容：实验目的要求： 目的：对电子介质进行保全备份。主要包括存储介质的擦除、制作保全备份和数据完整性校验方法等。 要求：认真、规范实验内容：1、擦除存储介质在虚拟机下，对Linux系统硬盘数据清零。sudo dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;&#x2F;dev&#x2F;hda2、对硬盘数据保全备份（1）Linux下用dd命令:sudo dd if&#x3D;&#x2F;dev&#x2F;sda of&#x3D;&#x2F;dev&#x2F;hda（2）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="加密和解密">
-<meta property="og:url" content="http://example.com/2020/10/18/%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%BD%91%E7%AB%99%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:title" content="克隆磁盘">
+<meta property="og:url" content="http://example.com/2020/10/19/%E7%A3%81%E7%9B%98%E5%85%8B%E9%9A%86/index.html">
 <meta property="og:site_name" content="温馨的小站">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;在CTF中加解密的利用可太多了，遇到一些没见过的加解密可以难过到头秃，所以在平时的学习中也注意到收集，免去了一次次百度查找免费可用的网站的麻烦。如果这些网站在某个时刻能够帮助到你，我会很开心。">
+<meta property="og:description" content="实验目的和主要实验内容：实验目的要求： 目的：对电子介质进行保全备份。主要包括存储介质的擦除、制作保全备份和数据完整性校验方法等。 要求：认真、规范实验内容：1、擦除存储介质在虚拟机下，对Linux系统硬盘数据清零。sudo dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;&#x2F;dev&#x2F;hda2、对硬盘数据保全备份（1）Linux下用dd命令:sudo dd if&#x3D;&#x2F;dev&#x2F;sda of&#x3D;&#x2F;dev&#x2F;hda（2）">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-10-18T11:50:33.695Z">
-<meta property="article:modified_time" content="2020-10-18T11:57:03.030Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwx8ur52j30d80ajate.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxba1yvj30f70c6x49.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwx95es5j30cv0bf1d5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwx9fgenj30dh0bze2a.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxczdi2j30k00huqv5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxct78zj30k00huqv5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxccd58j30k00huqv5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxccx41j30k00huqv5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxciik0j30k00huqv5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxcez27j30k00huqv5.jpg">
+<meta property="article:published_time" content="2020-10-19T12:39:30.397Z">
+<meta property="article:modified_time" content="2020-10-19T12:39:49.354Z">
 <meta property="article:author" content="会飞的猪">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjuwx8ur52j30d80ajate.jpg">
 
-<link rel="canonical" href="http://example.com/2020/10/18/%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%BD%91%E7%AB%99%E8%AE%B0%E5%BD%95/">
+<link rel="canonical" href="http://example.com/2020/10/19/%E7%A3%81%E7%9B%98%E5%85%8B%E9%9A%86/">
 
 
 <script id="page-configurations">
@@ -45,7 +56,7 @@
   };
 </script>
 
-  <title>加密和解密 | 温馨的小站</title>
+  <title>克隆磁盘 | 温馨的小站</title>
   
 
 
@@ -166,7 +177,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/10/18/%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%BD%91%E7%AB%99%E8%AE%B0%E5%BD%95/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/10/19/%E7%A3%81%E7%9B%98%E5%85%8B%E9%9A%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/LGL.JPG">
@@ -179,7 +190,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          加密和解密
+          克隆磁盘
         </h1>
 
         <div class="post-meta">
@@ -190,7 +201,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-10-18 19:50:33 / 修改时间：19:57:03" itemprop="dateCreated datePublished" datetime="2020-10-18T19:50:33+08:00">2020-10-18</time>
+              <time title="创建时间：2020-10-19 20:39:30 / 修改时间：20:39:49" itemprop="dateCreated datePublished" datetime="2020-10-19T20:39:30+08:00">2020-10-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -198,7 +209,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/" itemprop="url" rel="index"><span itemprop="name">数据恢复</span></a>
                 </span>
             </span>
 
@@ -213,9 +224,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&emsp;&emsp;在CTF中加解密的利用可太多了，遇到一些没见过的加解密可以难过到头秃，所以在平时的学习中也注意到收集，免去了一次次百度查找免费可用的网站的麻烦。如果这些网站在某个时刻能够帮助到你，我会很开心。</p>
+        <h2 id="实验目的和主要实验内容："><a href="#实验目的和主要实验内容：" class="headerlink" title="实验目的和主要实验内容："></a>实验目的和主要实验内容：</h2><h3 id="实验目的要求："><a href="#实验目的要求：" class="headerlink" title="实验目的要求："></a>实验目的要求：</h3><ul>
+<li>目的：对电子介质进行保全备份。主要包括存储介质的擦除、制作保全备份和数据完整性校验方法等。</li>
+<li>要求：认真、规范<h3 id="实验内容："><a href="#实验内容：" class="headerlink" title="实验内容："></a>实验内容：</h3><h4 id="1、擦除存储介质"><a href="#1、擦除存储介质" class="headerlink" title="1、擦除存储介质"></a>1、擦除存储介质</h4>在虚拟机下，对Linux系统硬盘数据清零。<br>sudo dd if=/dev/zero of=/dev/hda<h4 id="2、对硬盘数据保全备份"><a href="#2、对硬盘数据保全备份" class="headerlink" title="2、对硬盘数据保全备份"></a>2、对硬盘数据保全备份</h4>（1）Linux下用dd命令:sudo dd if=/dev/sda of=/dev/hda<br>（2）使用WinHex的硬盘克隆功能<h4 id="3、数据完整性（数字签名）"><a href="#3、数据完整性（数字签名）" class="headerlink" title="3、数据完整性（数字签名）"></a>3、数据完整性（数字签名）</h4>使用winhex的md5、SHA、CRC等算法对文件生成数字签名<h4 id="4、练习使用硬盘复制机（选作）"><a href="#4、练习使用硬盘复制机（选作）" class="headerlink" title="4、练习使用硬盘复制机（选作）"></a>4、练习使用硬盘复制机（选作）</h4></li>
+</ul>
 <a id="more"></a>
-<h2 id="CTF中常用加解密"><a href="#CTF中常用加解密" class="headerlink" title="CTF中常用加解密"></a>CTF中常用加解密</h2><p><a target="_blank" rel="noopener" href="http://tool.chinaz.com/tools/urlencode.aspx">UrlEncode编码/UrlDecode解码 - 站长工具</a><br><a target="_blank" rel="noopener" href="https://www.cmd5.com/">md5在线解密破解,md5解密加密</a><br><a target="_blank" rel="noopener" href="https://base64.supfree.net/">BASE64加密解密</a><br><a target="_blank" rel="noopener" href="https://www.somd5.com/">MD5免费在线解密破解_MD5在线加密-SOMD5</a><br><a target="_blank" rel="noopener" href="http://www.factordb.com/">factordb.com</a><br><a target="_blank" rel="noopener" href="https://tool.lu/hexconvert/">进制转换 - 在线工具</a><br><a target="_blank" rel="noopener" href="https://www.qqxiuzi.cn/bianma/base.php">Base32编码解码，Base32在线转换工具 - 千千秀字</a><br><a target="_blank" rel="noopener" href="http://tool.chinaz.com/Tools/Base64.aspx">Base64加密、解密 - 站长工具</a><br><a target="_blank" rel="noopener" href="https://jwt.io/">JSON Web Tokens - jwt.io</a><br><a target="_blank" rel="noopener" href="https://www.bejson.com/convert/unicode_chinese/">在线unicode转中文,中文转unicode-BeJSON.com</a><br><a target="_blank" rel="noopener" href="https://regex101.com/">Online regex tester and debugger: PHP, PCRE, Python, Golang and JavaScript</a><br><a target="_blank" rel="noopener" href="http://tool.oschina.net/encode">在线编码转换</a><br><a target="_blank" rel="noopener" href="http://ctf.ssleye.com/">CTF在线工具-CTF工具|CTF编码|CTF密码学|CTF加解密|程序员工具|在线编解码</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/zz_Caleb/article/details/87016017">各种编码及密码原理(边积累边更新)_网络_Sea_Sand息禅-CSDN博客</a><br><a target="_blank" rel="noopener" href="http://www.mamicode.com/info-detail-2252602.html">CTF中常见密码题解密网站总结</a><br><a target="_blank" rel="noopener" href="https://quipqiup.com/">quipqiup - cryptoquip and cryptogram solver</a><br><a target="_blank" rel="noopener" href="http://factordb.com/index.php?query=98554799767">factordb.com</a><br><a target="_blank" rel="noopener" href="http://web.chacuo.net/charsetquotedprintable">Quoted-printable编码|Quoted-printable解码|Quoted-printable编码原理介绍–查错网</a><br><a target="_blank" rel="noopener" href="https://www.mokuge.com/tool/asciito16/">ASCII在线转换工具 - 魔酷阁</a><br><a target="_blank" rel="noopener" href="https://www.qqxiuzi.cn/bianma/zhalanmima.php">栅栏密码在线加密解密 - 千千秀字</a><br><a target="_blank" rel="noopener" href="https://tool.lu/hexconvert/">进制转换 - 在线工具</a><br><a target="_blank" rel="noopener" href="https://tool.bugku.com/peigen/">在线工具|培根密码加解密</a></p>
+<h3 id="实验步骤："><a href="#实验步骤：" class="headerlink" title="实验步骤："></a>实验步骤：</h3><h4 id="1、实现擦除存储介质"><a href="#1、实现擦除存储介质" class="headerlink" title="1、实现擦除存储介质"></a>1、实现擦除存储介质</h4><p>（一、）创建磁盘<br>分别创建内存为2g的源盘和目标盘<br>将虚拟机关机，在硬盘选项中添加IDE磁盘类型大小为2g的磁盘，并勾选将虚拟磁盘存储为单个文件<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwx8ur52j30d80ajate.jpg" alt="alt"><br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxba1yvj30f70c6x49.jpg" alt="alt"></p>
+<p>（二）、源盘初始化<br>查看磁盘的使用情况<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwx95es5j30cv0bf1d5.jpg" alt="alt"></p>
+<p>进行磁盘初始化<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwx9fgenj30dh0bze2a.jpg" alt="alt"></p>
+<p>（三）、挂载源盘<br>挂载磁盘需要先创建一个目录，将磁盘挂载在目录中<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxczdi2j30k00huqv5.jpg" alt="alt"><br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxct78zj30k00huqv5.jpg" alt="alt"></p>
+<p>（四）、进行目标盘磁盘擦除<br>对目标盘sda进行磁盘擦出<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxccd58j30k00huqv5.jpg" alt="alt"><br>进行磁盘克隆<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxccx41j30k00huqv5.jpg" alt="alt"></p>
+<p><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxciik0j30k00huqv5.jpg" alt="alt"><br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjuwxcez27j30k00huqv5.jpg" alt="alt"><br>磁盘克隆成功</p>
+<p>通过hash校验，两个磁盘的hash值也相同</p>
 
     </div>
 
@@ -231,13 +251,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/10/17/Markdown%20%E5%AD%A6%E4%B9%A0/" rel="prev" title="Markdown 学习">
-      <i class="fa fa-chevron-left"></i> Markdown 学习
+    <a href="/2020/10/19/win7%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/" rel="prev" title="win7日志分析">
+      <i class="fa fa-chevron-left"></i> win7日志分析
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/10/19/%E5%9B%BE%E7%89%87%E4%BF%A1%E6%81%AF%E5%88%86%E6%9E%90/" rel="next" title="图片分析">
-      图片分析 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -296,7 +313,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CTF%E4%B8%AD%E5%B8%B8%E7%94%A8%E5%8A%A0%E8%A7%A3%E5%AF%86"><span class="nav-number">1.</span> <span class="nav-text">CTF中常用加解密</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84%E5%92%8C%E4%B8%BB%E8%A6%81%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">实验目的和主要实验内容：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84%E8%A6%81%E6%B1%82%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">实验目的要求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">实验内容：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E6%93%A6%E9%99%A4%E5%AD%98%E5%82%A8%E4%BB%8B%E8%B4%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">1、擦除存储介质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%AF%B9%E7%A1%AC%E7%9B%98%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%85%A8%E5%A4%87%E4%BB%BD"><span class="nav-number">1.2.2.</span> <span class="nav-text">2、对硬盘数据保全备份</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7%EF%BC%88%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">3、数据完整性（数字签名）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E7%BB%83%E4%B9%A0%E4%BD%BF%E7%94%A8%E7%A1%AC%E7%9B%98%E5%A4%8D%E5%88%B6%E6%9C%BA%EF%BC%88%E9%80%89%E4%BD%9C%EF%BC%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">4、练习使用硬盘复制机（选作）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">实验步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%AE%9E%E7%8E%B0%E6%93%A6%E9%99%A4%E5%AD%98%E5%82%A8%E4%BB%8B%E8%B4%A8"><span class="nav-number">1.3.1.</span> <span class="nav-text">1、实现擦除存储介质</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
