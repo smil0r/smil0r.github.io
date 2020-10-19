@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="实验目的和主要实验内容：实验目的要求： 目的：分析win7日志文件 要求：认真、规范  实验内容：一、日志文件的位置二、日志文件内容三、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）四、使用logparser分析win7系统日志五、分析IIS服务器日志文件1、使用记事本搜索关键字分析，找到攻击者的IP、时间、入口网址2、使用logparser分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="win7日志分析">
+<meta property="og:url" content="http://example.com/2020/10/19/win7%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="温馨的小站">
+<meta property="og:description" content="实验目的和主要实验内容：实验目的要求： 目的：分析win7日志文件 要求：认真、规范  实验内容：一、日志文件的位置二、日志文件内容三、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）四、使用logparser分析win7系统日志五、分析IIS服务器日志文件1、使用记事本搜索关键字分析，找到攻击者的IP、时间、入口网址2、使用logparser分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1qqllj30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1rxzhj30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1p3vaj30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl20i0ij30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1s7l7j30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl2d18xj30k00h0npd.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0wn5lj30k00b14qp.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl2l95cj30k00hoqv5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1uh7hj30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1v4z5j30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl20eagj30g30ichdt.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1601yj30d40go1kx.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1qqllj30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1rxzhj30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1p3vaj30k00ebe81.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0w24sj30k00au1kx.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0xrq4j30hk0cc1kx.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0taz5j30k00au1kx.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0xrtmj30k00au1kx.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1xt23j30k00au1kx.jpg">
+<meta property="article:published_time" content="2020-10-19T11:25:08.538Z">
+<meta property="article:modified_time" content="2020-10-19T11:28:00.231Z">
+<meta property="article:author" content="会飞的猪">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1qqllj30k00ebe81.jpg">
+
+<link rel="canonical" href="http://example.com/2020/10/19/win7%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>win7日志分析 | 温馨的小站</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">温馨的小站</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">须知少时凌云志，曾许人间第一流</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/10/19/win7%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/LGL.JPG">
+      <meta itemprop="name" content="会飞的猪">
+      <meta itemprop="description" content="忠诚、团结、求实、开拓">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="温馨的小站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          win7日志分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-19 19:25:08 / 修改时间：19:28:00" itemprop="dateCreated datePublished" datetime="2020-10-19T19:25:08+08:00">2020-10-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/" itemprop="url" rel="index"><span itemprop="name">数据恢复</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="实验目的和主要实验内容："><a href="#实验目的和主要实验内容：" class="headerlink" title="实验目的和主要实验内容："></a>实验目的和主要实验内容：</h2><h3 id="实验目的要求："><a href="#实验目的要求：" class="headerlink" title="实验目的要求："></a>实验目的要求：</h3><ul>
+<li>目的：分析win7日志文件</li>
+<li>要求：认真、规范  <h3 id="实验内容："><a href="#实验内容：" class="headerlink" title="实验内容："></a>实验内容：</h3><h4 id="一、日志文件的位置"><a href="#一、日志文件的位置" class="headerlink" title="一、日志文件的位置"></a>一、日志文件的位置</h4><h4 id="二、日志文件内容"><a href="#二、日志文件内容" class="headerlink" title="二、日志文件内容"></a>二、日志文件内容</h4><h4 id="三、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）"><a href="#三、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）" class="headerlink" title="三、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）"></a>三、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）</h4><h4 id="四、使用logparser分析win7系统日志"><a href="#四、使用logparser分析win7系统日志" class="headerlink" title="四、使用logparser分析win7系统日志"></a>四、使用logparser分析win7系统日志</h4><h4 id="五、分析IIS服务器日志文件"><a href="#五、分析IIS服务器日志文件" class="headerlink" title="五、分析IIS服务器日志文件"></a>五、分析IIS服务器日志文件</h4><h5 id="1、使用记事本搜索关键字分析，找到攻击者的IP、时间、入口网址"><a href="#1、使用记事本搜索关键字分析，找到攻击者的IP、时间、入口网址" class="headerlink" title="1、使用记事本搜索关键字分析，找到攻击者的IP、时间、入口网址"></a>1、使用记事本搜索关键字分析，找到攻击者的IP、时间、入口网址</h5><h5 id="2、使用logparser分析"><a href="#2、使用logparser分析" class="headerlink" title="2、使用logparser分析"></a>2、使用logparser分析</h5></li>
+</ul>
+<a id="more"></a>
+
+<h3 id="实验步骤："><a href="#实验步骤：" class="headerlink" title="实验步骤："></a>实验步骤：</h3><h4 id="1、日志文件的位置"><a href="#1、日志文件的位置" class="headerlink" title="1、日志文件的位置"></a>1、日志文件的位置</h4><p>方法1、右键计算机-&gt;管理-&gt;事件查看器-&gt;window日志，查看系统的日志文件<br>系统日志：<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1qqllj30k00ebe81.jpg" alt="avatar"><br>应用程序日志：<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1rxzhj30k00ebe81.jpg" alt="avatar"><br>系统安全日志：<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1p3vaj30k00ebe81.jpg" alt="avatar"><br>Setup日志<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl20i0ij30k00ebe81.jpg" alt="avatar"></p>
+<p>方法二：点击“开始→运行”，输入eventvwr，点击“确定”，就可以打开事件查看器。<br>方法三：单击“开始”-“设置”-“控制面板”-“管理工具”-“事件查看器”，开事件查看器窗口。<br>方法四：在“运行”对话框中手工键入“%SystemRoot%/system32/eventvwr.msc /s”打开事件查看器窗口。</p>
+<h4 id="2、日志文件内容"><a href="#2、日志文件内容" class="headerlink" title="2、日志文件内容"></a>2、日志文件内容</h4><p><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1s7l7j30k00ebe81.jpg" alt="avatar"><br>Windows日志中可以查看的有系统日志、应用程序、安全日志 这三个日志内容；</p>
+<p>系统日志：一般记录系统异常引起的事件。比如系统更新，内存资源不足等，在系统日志中都可以查看到。带有“！”标示的是警告，一般不会严重影响使用，但比如“内存资源不足”等事件，多次警告，可能会导致主机卡慢或假死的。<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl2d18xj30k00h0npd.jpg" alt="avatar"><br>应用程序：一般记录服务器上安装的一些应用程序或系统默认程序的事件。比如您的主机安装的站点服务，mysql ,PHP ,IIS 等相关的应用程序的事件记录；如：<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0wn5lj30k00b14qp.jpg" alt="avatar"><br>安全日志：一般记录服务器的登陆信息，或一些策略的审核事件；比如远程登录，如果是正常的登陆，会显示审核成功，如果是异常的，比如密码错误等，就会提示“审核失败” ；比如：<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl2l95cj30k00hoqv5.jpg" alt="avatar"></p>
+<p>应用程序和服务日志   </p>
+<p>该路径包含Windows系统其它各类重要服务组件的事件日志。<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1uh7hj30k00ebe81.jpg" alt="avatar"></p>
+<h4 id="3、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）"><a href="#3、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）" class="headerlink" title="3、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）"></a>3、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）</h4><p>6005,6006分别是开关机的ID<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1v4z5j30k00ebe81.jpg" alt="avatar"></p>
+<p>从图中可以看到，使用的电脑是2020/10/14 7:52:02开机  </p>
+<p>6005,6005正常情况下是成对出现的<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl20eagj30g30ichdt.jpg" alt="avatar"><br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1601yj30d40go1kx.jpg" alt="avatar"></p>
+<p>更改当前时间为2021年，并创建文件，可以看到，文件的创建、修改时间都是20221年，观察事件查看器中系统日志<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1qqllj30k00ebe81.jpg" alt="avatar"></p>
+<p>ID为1的时间会显示电脑系统时间更改的记录</p>
+<p>插入usb驱动<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1rxzhj30k00ebe81.jpg" alt="avatar"><br>系统日志中有ID号20001、20003<br>20001、20003与usb设备驱动相关</p>
+<p>104是日志清除的ID<br>6013是系统开机启动时间</p>
+<p>在安全日志中<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1p3vaj30k00ebe81.jpg" alt="avatar"><br>ID：4624表示登录用户账号<br>ID：4616显示系统被更改时间<br>5033、5024表示防火墙的驱动及服务启动<br>4647表示用户注销账号<br>1102代表安全日志清除  </p>
+<h4 id="4、使用logparser分析win7系统日志"><a href="#4、使用logparser分析win7系统日志" class="headerlink" title="4、使用logparser分析win7系统日志"></a>4、使用logparser分析win7系统日志</h4><p>使用logparser分析Security.evtx<br>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Logparser.exe –i:EVT –o:DATAGRID &quot;SELECT * FROM Security.evtx&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0w24sj30k00au1kx.jpg" alt="avatar"></p>
+<p>从Security.evtx中筛选EventID=4624<br>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LogParser.exe -i:EVT -o:DATAGRID &quot;SELECT TimeGenerated as LoginTime FROM Security.evtx where EventID&#x3D;4624&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0xrq4j30hk0cc1kx.jpg" alt="avatar"></p>
+<h4 id="5、分析IIS服务器日志文件"><a href="#5、分析IIS服务器日志文件" class="headerlink" title="5、分析IIS服务器日志文件"></a>5、分析IIS服务器日志文件</h4><p>1、使用记事本搜索关键字分析，找到攻击者的IP、时间、入口网址</p>
+<p>通过分析日志文件，发现枚举爆破网站目录，和注入攻击<br>分析日志文件通过搜索发现存在sql注入攻击记录<br>并查看到攻击事件在2015年7月7日 晚上8点24，被攻击IP：183.169.159.88<br>攻击者IP：141.212.121.128<br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0taz5j30k00au1kx.jpg" alt="avatar"><br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl0xrtmj30k00au1kx.jpg" alt="avatar"><br><img src="http://ww1.sinaimg.cn/large/007oROxUly1gjurl1xt23j30k00au1kx.jpg" alt="avatar"><br>通过分析日志文件，发现枚举爆破网站目录，和sql注入攻击<br>并查看到攻击事件在2015年7月7日<br>晚上8点24，被攻击IP：183.169.159.88<br>攻击者IP：141.212.121.128  </p>
+<p>2、使用logparser分析</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/19/%E5%AE%9E%E9%AA%8C%E4%B8%89%E3%80%81%E5%9B%BE%E7%89%87%E4%BF%A1%E6%81%AF%E5%88%86%E6%9E%90/" rel="prev" title="图片分析">
+      <i class="fa fa-chevron-left"></i> 图片分析
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84%E5%92%8C%E4%B8%BB%E8%A6%81%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">实验目的和主要实验内容：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84%E8%A6%81%E6%B1%82%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">实验目的要求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">实验内容：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.2.1.</span> <span class="nav-text">一、日志文件的位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">1.2.2.</span> <span class="nav-text">二、日志文件内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%88%86%E6%9E%90%E7%BB%93%E8%AE%BA%EF%BC%88%E8%87%B3%E5%B0%91%E4%B8%89%E7%A7%8D%E4%BA%8B%E4%BB%B6%EF%BC%9A%E5%A6%82%E5%BC%80%E5%85%B3%E6%9C%BA%E6%97%B6%E9%97%B4%E3%80%81%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%E6%9B%B4%E6%94%B9%E3%80%81USB%E8%AE%BE%E5%A4%87%E6%8F%92%E5%85%A5%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">三、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%BD%BF%E7%94%A8logparser%E5%88%86%E6%9E%90win7%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97"><span class="nav-number">1.2.4.</span> <span class="nav-text">四、使用logparser分析win7系统日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%88%86%E6%9E%90IIS%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.5.</span> <span class="nav-text">五、分析IIS服务器日志文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1%E3%80%81%E4%BD%BF%E7%94%A8%E8%AE%B0%E4%BA%8B%E6%9C%AC%E6%90%9C%E7%B4%A2%E5%85%B3%E9%94%AE%E5%AD%97%E5%88%86%E6%9E%90%EF%BC%8C%E6%89%BE%E5%88%B0%E6%94%BB%E5%87%BB%E8%80%85%E7%9A%84IP%E3%80%81%E6%97%B6%E9%97%B4%E3%80%81%E5%85%A5%E5%8F%A3%E7%BD%91%E5%9D%80"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">1、使用记事本搜索关键字分析，找到攻击者的IP、时间、入口网址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2%E3%80%81%E4%BD%BF%E7%94%A8logparser%E5%88%86%E6%9E%90"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">2、使用logparser分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">实验步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.3.1.</span> <span class="nav-text">1、日志文件的位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">1.3.2.</span> <span class="nav-text">2、日志文件内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E5%88%86%E6%9E%90%E7%BB%93%E8%AE%BA%EF%BC%88%E8%87%B3%E5%B0%91%E4%B8%89%E7%A7%8D%E4%BA%8B%E4%BB%B6%EF%BC%9A%E5%A6%82%E5%BC%80%E5%85%B3%E6%9C%BA%E6%97%B6%E9%97%B4%E3%80%81%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%E6%9B%B4%E6%94%B9%E3%80%81USB%E8%AE%BE%E5%A4%87%E6%8F%92%E5%85%A5%EF%BC%89"><span class="nav-number">1.3.3.</span> <span class="nav-text">3、分析结论（至少三种事件：如开关机时间、系统时间更改、USB设备插入）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E4%BD%BF%E7%94%A8logparser%E5%88%86%E6%9E%90win7%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97"><span class="nav-number">1.3.4.</span> <span class="nav-text">4、使用logparser分析win7系统日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%E3%80%81%E5%88%86%E6%9E%90IIS%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.5.</span> <span class="nav-text">5、分析IIS服务器日志文件</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="会飞的猪"
+      src="/images/LGL.JPG">
+  <p class="site-author-name" itemprop="name">会飞的猪</p>
+  <div class="site-description" itemprop="description">忠诚、团结、求实、开拓</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">会飞的猪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/schemes/love.js"></script>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/schemes/particle.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":200,"height":400},"mobile":{"show":true}});</script></body>
+</html>
